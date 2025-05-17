@@ -1,20 +1,9 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button/index.js';
-	import * as Card from '$lib/components/ui/card/index.js';
-	``;
+	import type { PageData } from './$types';
+
+	let { data }: { data: PageData } = $props();
 </script>
 
-<Button>Click me</Button>
-
-<Card.Root>
-	<Card.Header>
-		<Card.Title>Card Title</Card.Title>
-		<Card.Description>Card Description</Card.Description>
-	</Card.Header>
-	<Card.Content>
-		<p>Card Content</p>
-	</Card.Content>
-	<Card.Footer>
-		<p>Card Footer</p>
-	</Card.Footer>
-</Card.Root>
+<form action="?/login" method="post">
+	<button>Test</button>
+</form>

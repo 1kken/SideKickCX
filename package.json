@@ -43,6 +43,8 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@supabase/supabase-js": "^2.49.4",
+		"supabase": "^2.22.12",
 		"svelte-motion": "^0.12.2"
 	}
 }
