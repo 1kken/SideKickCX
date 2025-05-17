@@ -50,6 +50,9 @@ export async function chatWithPinecone(
   assistantId: string = 'sidekickcx'
 ) {
   try {
+    console.log(`Sending request to Pinecone Assistant: ${assistantId}`);
+    console.log('Messages:', JSON.stringify(messages));
+    
     const response = await fetch(`https://prod-1-data.ke.pinecone.io/assistant/chat/${assistantId}`, {
       method: 'POST',
       headers: {
@@ -64,14 +67,18 @@ export async function chatWithPinecone(
     });
     
     if (!response.ok) {
-      throw new Error(`Failed to chat with assistant: ${response.statusText}`);
+      const errorText = await response.text();
+      console.error('Pinecone API Error:', response.status, errorText);
+      throw new Error(`Failed to chat with assistant: ${response.statusText} - ${errorText}`);
     }
     
     if (stream) {
       // Return the stream for client-side processing
       return response;
     } else {
-      return await response.json();
+      const jsonResponse = await response.json();
+      console.log('Pinecone API Response:', JSON.stringify(jsonResponse));
+      return jsonResponse;
     }
   } catch (error) {
     console.error('Error chatting with Pinecone:', error);

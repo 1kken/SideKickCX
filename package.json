@@ -47,6 +47,7 @@
 		"chart.js": "^4.4.9",
 		"lucide-svelte": "^0.511.0",
 		"@pinecone-database/pinecone": "^6.0.0",
+		"@supabase/supabase-js": "^2.49.4",
 		"langchain": "^0.3.26"
 	}
 }
