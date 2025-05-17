@@ -85,7 +85,7 @@
 	<!-- Sidebar -->
 	<aside class="w-1/4 border-r p-4 bg-muted">
 		<div class="mb-4 flex justify-between items-center">
-			<a href="/" class="bg-gray-200 text-black px-3 py-1 rounded-md hover:bg-gray-300 transition">← Back</a>
+			<a href="home_page" class="bg-gray-200 text-black px-3 py-1 rounded-md hover:bg-gray-300 transition">← Back</a>
 			<h2 class="text-xl font-bold">Tickets</h2>
 		</div>
 
