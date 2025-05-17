@@ -45,10 +45,11 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@pinecone-database/pinecone": "^6.0.0",
 		"@supabase/supabase-js": "^2.49.4",
 		"chart.js": "^4.4.9",
-		"lucide-svelte": "^0.511.0",
-		"@pinecone-database/pinecone": "^6.0.0",
-		"langchain": "^0.3.26"
+		"dotenv": "^16.5.0",
+		"langchain": "^0.3.26",
+		"lucide-svelte": "^0.511.0"
 	}
 }
