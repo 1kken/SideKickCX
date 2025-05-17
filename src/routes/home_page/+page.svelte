@@ -66,7 +66,7 @@ import { Monitor, BarChart2 } from 'lucide-svelte';
       <span>Analytics</span>
     </h2>
     <p class="text-[hsl(var(--muted-foreground))] mb-6">
-      Quick glance at your site’s performance.
+      Quick glance at your site's performance.
     </p>
     <canvas bind:this={chartCanvas} class="w-full h-48"></canvas>
   </div>
@@ -84,7 +84,7 @@ import { Monitor, BarChart2 } from 'lucide-svelte';
         <span>Workstation</span>
       </h2>
       <p class="text-[hsl(var(--muted-foreground))] mb-4">
-        Go work on your tasks in the dedicated workspace.
+        Access your primary workspace where you can process customer queries, manage support tickets, and collaborate with your team in real-time.
       </p>
     </div>
     <button
@@ -110,10 +110,10 @@ import { Monitor, BarChart2 } from 'lucide-svelte';
         class="text-2xl font-semibold mb-4 flex items-center space-x-2 text-[hsl(var(--card-foreground))]"
       >
         <Monitor class="w-6 h-6 text-[hsl(var(--primary))]" />
-        <span>Workspace 2</span>
+        <span>Knowledge Base</span>
       </h2>
       <p class="text-[hsl(var(--muted-foreground))] mb-4">
-        Switch to your secondary workspace for parallel tasks.
+        Upload and access company documentation, product information, and support resources to assist with customer inquiries.
       </p>
     </div>
     <button
@@ -125,7 +125,7 @@ import { Monitor, BarChart2 } from 'lucide-svelte';
         hover:scale-105 hover:animate-bounce
       "
     >
-      Open Workspace 2
+      Customize AI Chatbot
     </button>
   </div>
 </section>

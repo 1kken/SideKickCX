@@ -3,7 +3,7 @@ import { redirect, fail } from '@sveltejs/kit';
 import type { Actions } from '@sveltejs/kit';
 
 export const actions: Actions = {
-  default: async ({ request }) => {
+  default: async ({ request, cookies }) => {
     const formData = await request.formData();
     const email = formData.get('email')?.toString();
     const password = formData.get('password')?.toString();
@@ -14,9 +14,6 @@ export const actions: Actions = {
         message: 'Email and password are required' 
       });
     }
-
-    let loginSuccess = false;
-    let userId = null;
 
     try {
       console.log('Attempting login with email:', email);
@@ -39,9 +36,20 @@ export const actions: Actions = {
         });
       }
 
-      // Set user ID and mark login as successful
-      userId = users.id;
-      loginSuccess = true;
+      // Set session cookie or token if needed
+      // cookies.set('session', token, { path: '/' });
+      
+      // Return successful response with user ID and redirect info
+      // The client will use this data to store userId in sessionStorage and redirect
+      return {
+        success: true,
+        userId: users.id,
+        redirectTo: '/customer_page'
+      };
+      
+      // Alternative approach: direct server-side redirect
+      // Uncomment this and remove the return above if you prefer server-side redirect
+      // throw redirect(302, '/customer_page');
       
     } catch (err) {
       console.error('Login error:', err);
@@ -49,15 +57,6 @@ export const actions: Actions = {
         error: true, 
         message: 'An unexpected error occurred'
       });
-    }
-
-    // Return successful response with user ID
-    if (loginSuccess) {
-      return {
-        success: true,
-        userId: userId,
-        redirectTo: '/customer_page'
-      };
     }
   }
 }; 

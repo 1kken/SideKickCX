@@ -103,6 +103,39 @@ export const POST: RequestHandler = async ({ request }) => {
     
     console.log(`Processing customer query for user ${userId}: "${message}"`);
     
+    // Check if there's an active ticket - if so, we shouldn't process with Pinecone
+    // Messages for active tickets should be handled by the ticket_messages table directly
+    if (ticketId) {
+      console.log(`Active ticket ID ${ticketId} detected. Skipping Pinecone processing.`);
+      
+      // Just store the message in chatbot_logs without a response
+      try {
+        const { error: logError } = await supabase
+          .from('chatbot_logs')
+          .insert({
+            user_id: userId,
+            ticket_id: ticketId,
+            question: message,
+            response: null, // No response since this is handled via ticket
+            handled_by: 'agent' // Mark as being handled by agent system
+          });
+          
+        if (logError) {
+          console.error('Error logging chat for ticketed message:', logError);
+        }
+      } catch (dbError) {
+        console.error('Exception during database insertion for ticketed message:', dbError);
+      }
+      
+      return json({
+        success: true,
+        // Don't send any response, just wait for the agent reply
+        response: null,
+        priority: "medium",
+        ticketId: ticketId
+      });
+    }
+    
     // Step 1: Track this interaction and check repetition count
     const { repetitionCount, hasHighRepetition } = await trackUserInteraction(userId, message);
     console.log(`Repetition count: ${repetitionCount}, High repetition: ${hasHighRepetition}`);

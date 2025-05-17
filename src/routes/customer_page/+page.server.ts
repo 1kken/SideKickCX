@@ -9,6 +9,14 @@ const supabaseAdmin = createClient(
   PUBLIC_SUPABASE_ANON_KEY
 );
 
+// Load function to fetch chat and ticket messages data
+export async function load({ url, locals }: { url: URL; locals: Record<string, any> }) {
+  // No need to fetch data server-side, will be done client-side
+  return {
+    // Any initial data can be returned here
+  };
+}
+
 // Pinecone API Key - in a real application, this should be in a secure environment variable
 const PINECONE_API_KEY = 'pcsk_2nm9Xt_LwdC14C39DkR1noNYs6KHjbneS55wRcWKvgJ3P6zvxoV5dsz7hLzWUii3Uka7Bd';
 
@@ -154,6 +162,29 @@ export const actions = {
           console.error('Error logging message:', logError);
         }
         
+        // Also add the initial message to ticket_messages table
+        // First get the user's database ID from auth_id
+        const { data: userData } = await supabaseAdmin
+          .from('users')
+          .select('id')
+          .eq('auth_id', userId)
+          .single();
+          
+        if (userData) {
+          const { error: ticketMsgError } = await supabaseAdmin
+            .from('ticket_messages')
+            .insert({
+              ticket_id: ticketData[0].id,
+              sender_id: userData.id,
+              message: message,
+              is_agent: false
+            });
+            
+          if (ticketMsgError) {
+            console.error('Error adding message to ticket_messages:', ticketMsgError);
+          }
+        }
+        
         return {
           success: true,
           ticketId: ticketData[0].id,
@@ -164,6 +195,53 @@ export const actions = {
       else {
         console.log('Processing message for existing conversation');
         const ticketId = formData.get('ticketId')?.toString();
+        
+        // If there's an active ticket, we should skip Pinecone processing
+        // Messages for active tickets should be handled by ticket_messages table directly
+        if (ticketId) {
+          console.log('Active ticket detected. Message should be handled by ticket_messages table instead.');
+          
+          // Direct insert without querying for user ID since we already have it
+          console.log(`Inserting into ticket_messages with userId=${userId}, ticketId=${ticketId}`);
+          const { data: messageData, error: ticketMsgError } = await supabaseAdmin
+            .from('ticket_messages')
+            .insert({
+              ticket_id: ticketId,
+              sender_id: userId, // Use userId directly - it's the actual DB ID
+              message: message,
+              is_agent: false
+            })
+            .select();
+            
+          if (ticketMsgError) {
+            console.error('Error adding message to ticket_messages:', ticketMsgError);
+            return { success: false, error: 'Failed to add message to ticket' };
+          }
+          
+          console.log('Successfully inserted message into ticket_messages:', messageData);
+          
+          // Also log in chatbot_logs but with placeholder response (not null)
+          const { error: logError } = await supabaseAdmin
+            .from('chatbot_logs')
+            .insert({
+              user_id: userId,
+              ticket_id: ticketId,
+              question: message,
+              response: "Message handled by agent", // Not null placeholder
+              handled_by: 'agent' // Mark as being handled by agent system
+            });
+            
+          if (logError) {
+            console.error('Error logging ticketed message:', logError);
+          }
+          
+          return { 
+            success: true, 
+            message: 'Message added to ticket successfully',
+            response: null, // Don't send any response message
+            priority: 'medium'
+          };
+        }
         
         // Check user interaction history to see if this is a repeated question
         const { data: userInteractions } = await supabaseAdmin

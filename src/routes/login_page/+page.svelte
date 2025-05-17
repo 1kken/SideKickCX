@@ -1,7 +1,23 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { browser } from '$app/environment';
+	
+	export let form: Record<string, any> | undefined;
 	let email = '';
 	let password = '';
 	let remember = false;
+	
+	// Handle redirection on successful login
+	$: if (form?.success && form?.redirectTo) {
+		// Store the userId in sessionStorage for future use
+		if (form.userId && browser) {
+			sessionStorage.setItem('userId', form.userId);
+		}
+		// Redirect to the specified page
+		if (browser) {
+			goto(form.redirectTo);
+		}
+	}
 </script>
 
 <div class="flex min-h-screen items-center justify-center bg-background px-4 text-foreground">
