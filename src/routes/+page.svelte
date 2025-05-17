@@ -10,3 +10,7 @@
 		<li>{instrument.name}</li>
 	{/each}
 </ul>
+
+<form action="?/login" method="post">
+	<button>Test</button>
+</form>

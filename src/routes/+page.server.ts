@@ -1,8 +1,10 @@
 // +page.server.ts
 import { supabase } from '$lib/supabaseClient';
 import type { Instrument } from '$lib/types';
+import type { Actions } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
 
-export async function load() {
+export const load: PageServerLoad = async () => {
 	const { data, error } = await supabase.from('instruments').select();
 
 	if (error) {
@@ -12,4 +14,10 @@ export async function load() {
 	return {
 		instruments: data as Instrument[]
 	};
-}
+};
+
+export const actions: Actions = {
+	login: async (event) => {
+		console.log('login action');
+	}
+};
