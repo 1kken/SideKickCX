@@ -191,9 +191,14 @@ export const POST: RequestHandler = async ({ request }) => {
     const priority = classifyPriority(message);
     console.log(`Query classified as ${priority} priority`);
     
-    // Step 7: For high priority questions, suggest creating a ticket
-    if (priority === 'high') {
+    // Step 7: For high priority questions, suggest creating a ticket only if not repetitive
+    let suggestTicket = false;
+    if (priority === 'high' && repetitionCount < 2) {
       responseContent += "\n\nI notice this is a high priority issue. Would you like to create a support ticket so our team can assist you more directly?";
+      suggestTicket = true;
+    } else if (priority === 'high' && repetitionCount >= 2) {
+      // For repetitive high-priority questions, provide more context but don't suggest ticket
+      responseContent += "\n\nI notice you've asked similar questions before. Let me try to provide a more detailed answer based on your previous interactions.";
     }
     
     // Step 8: Get summary of conversation
@@ -237,7 +242,7 @@ export const POST: RequestHandler = async ({ request }) => {
       priority,
       repetitionCount,
       hasHighRepetition,
-      suggestTicket: priority === 'high'
+      suggestTicket: suggestTicket
     });
     
   } catch (error) {

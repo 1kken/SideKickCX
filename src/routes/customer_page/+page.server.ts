@@ -238,9 +238,12 @@ export const actions = {
             
           responseContent += "Here's the answer to your query: " + message;
           
-          // If high priority, suggest creating a ticket
-          if (priority === 'high') {
+          // If high priority and not repetitive, suggest creating a ticket
+          if (priority === 'high' && repetitionCount < 2) {
             responseContent += "\n\nI notice this is a high priority issue. Would you like to create a support ticket so our team can assist you more directly?";
+          } else if (priority === 'high' && repetitionCount >= 2) {
+            // For repetitive high-priority questions, provide more context but don't suggest ticket
+            responseContent += "\n\nI notice you've asked similar questions before. Let me try to provide a more detailed answer.";
           }
           
           responseMessage = responseContent;
@@ -276,7 +279,8 @@ export const actions = {
           response: responseMessage,
           priority: priority,
           highRepetition: hasHighRepetition,
-          repetitionCount: repetitionCount
+          repetitionCount: repetitionCount,
+          suggestTicket: priority === 'high' && repetitionCount < 2
         };
       }
     } catch (err) {

@@ -142,15 +142,7 @@
 						// Update priority badge
 						currentPriority = result.priority;
 						
-						// If high priority and high repetition, automatically show ticket form
-						if (result.priority === 'high') {
-							// If high repetition count, automatically show ticket form
-							if (result.hasHighRepetition && result.repetitionCount > 2) {
-								showTicketForm = true;
-							}
-						}
-						
-						// If ticket suggestion is present, show the ticket form
+						// Show ticket form only if suggested and not repetitive
 						if (result.suggestTicket) {
 							setTimeout(() => {
 								showTicketForm = true;
