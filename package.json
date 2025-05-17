@@ -43,6 +43,8 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
-		"@supabase/supabase-js": "^2.49.4"
+		"@supabase/supabase-js": "^2.49.4",
+		"chart.js": "^4.4.9",
+		"lucide-svelte": "^0.511.0"
 	}
 }
