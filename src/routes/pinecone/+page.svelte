@@ -36,7 +36,21 @@
       const data = await response.json();
       
       // Add assistant response to chat
-      messages = [...messages, { role: 'assistant', content: data.choices[0].message.content }];
+      // Pinecone Assistant API returns content directly in the response
+      if (data.answer) {
+        // Standard format from Pinecone Assistant
+        messages = [...messages, { role: 'assistant', content: data.answer }];
+      } else if (data.message && data.message.content) {
+        // Current Pinecone Assistant format
+        messages = [...messages, { role: 'assistant', content: data.message.content }];
+      } else if (data.choices && data.choices[0] && data.choices[0].message) {
+        // OpenAI-like format fallback
+        messages = [...messages, { role: 'assistant', content: data.choices[0].message.content }];
+      } else {
+        // If we can't determine the format, just stringify the response
+        console.log('Unexpected response format:', data);
+        messages = [...messages, { role: 'assistant', content: 'Received response in unknown format. Check console for details.' }];
+      }
     } catch (error) {
       console.error('Error sending message:', error);
       messages = [...messages, { role: 'assistant', content: 'Sorry, there was an error processing your request.' }];
