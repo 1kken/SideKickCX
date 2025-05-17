@@ -25,6 +25,7 @@
 		"autoprefixer": "^10.4.20",
 		"bits-ui": "^1.4.8",
 		"clsx": "^2.1.1",
+		"dotenv": "^16.5.0",
 		"eslint": "^9.18.0",
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-svelte": "^2.46.1",
@@ -43,10 +44,10 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@pinecone-database/pinecone": "^6.0.0",
 		"@supabase/supabase-js": "^2.49.4",
 		"chart.js": "^4.4.9",
-		"lucide-svelte": "^0.511.0",
-		"@pinecone-database/pinecone": "^6.0.0",
-		"langchain": "^0.3.26"
+		"langchain": "^0.3.26",
+		"lucide-svelte": "^0.511.0"
 	}
 }

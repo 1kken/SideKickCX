@@ -6,7 +6,7 @@ import { Monitor, BarChart2 } from 'lucide-svelte';
   let chartCanvas: HTMLCanvasElement;
 
   function goToWorkstation() {
-    goto('/workstation');
+    goto('/work_station_page');
   }
 
   let analyticsChart: Chart;

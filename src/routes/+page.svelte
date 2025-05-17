@@ -1,9 +1,7 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-
-	let { data }: { data: PageData } = $props();
+	// This page will be redirected server-side to the home_page
 </script>
 
-<form action="?/login" method="post">
-	<button>Test</button>
-</form>
+<div class="flex items-center justify-center h-screen">
+	<p>Loading...</p>
+</div>
