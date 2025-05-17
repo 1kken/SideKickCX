@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
-  import { Monitor, BarChart2 } from 'lucide-svelte';
+import { Monitor, BarChart2 } from 'lucide-svelte';
   import Chart from 'chart.js/auto';
   let chartCanvas: HTMLCanvasElement;
 
