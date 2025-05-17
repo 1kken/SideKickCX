@@ -6,8 +6,13 @@ import { Monitor, BarChart2 } from 'lucide-svelte';
   let chartCanvas: HTMLCanvasElement;
 
   function goToWorkstation() {
-    goto('/workstation');
+    goto('/work_station_page');
   }
+
+  function goToWorkspace2() {
+  goto('/upload_page');
+}
+
 
   let analyticsChart: Chart;
   onMount(() => {
@@ -48,50 +53,81 @@ import { Monitor, BarChart2 } from 'lucide-svelte';
     </h1>
   </header>
 
-  <!-- Cards -->
-  <section class="grid md:grid-cols-2 gap-6">
-    <div
-      class="bg-[hsl(var(--card))] rounded-2xl shadow-lg p-6 flex flex-col border border-[hsl(var(--border))] 
-             hover:shadow-2xl transition-shadow duration-300 animate-fadeInUp"
+  <!-- Cards --><section class="grid md:grid-cols-3 gap-6">
+  <!-- Analytics Card -->
+  <div
+    class="bg-[hsl(var(--card))] rounded-2xl shadow-lg p-6 flex flex-col border border-[hsl(var(--border))] 
+           hover:shadow-2xl transition-shadow duration-300 animate-fadeInUp"
+  >
+    <h2
+      class="text-2xl font-semibold mb-4 flex items-center space-x-2 text-[hsl(var(--card-foreground))]"
     >
+      <BarChart2 class="w-6 h-6 text-[hsl(var(--accent))]" />
+      <span>Analytics</span>
+    </h2>
+    <p class="text-[hsl(var(--muted-foreground))] mb-6">
+      Quick glance at your site’s performance.
+    </p>
+    <canvas bind:this={chartCanvas} class="w-full h-48"></canvas>
+  </div>
+
+  <!-- Workstation 1 Card -->
+  <div
+    class="bg-[hsl(var(--card))] rounded-2xl shadow-lg p-6 flex flex-col justify-between border border-[hsl(var(--border))] 
+           hover:shadow-2xl transition-shadow duration-300 animate-fadeInUp"
+  >
+    <div>
       <h2
         class="text-2xl font-semibold mb-4 flex items-center space-x-2 text-[hsl(var(--card-foreground))]"
       >
-        <BarChart2 class="w-6 h-6 text-[hsl(var(--accent))]" />
-        <span>Analytics</span>
+        <Monitor class="w-6 h-6 text-[hsl(var(--primary))]" />
+        <span>Workstation</span>
       </h2>
-      <p class="text-[hsl(var(--muted-foreground))] mb-6">
-        Quick glance at your site’s performance.
+      <p class="text-[hsl(var(--muted-foreground))] mb-4">
+        Go work on your tasks in the dedicated workspace.
       </p>
-      <canvas bind:this={chartCanvas} class="w-full h-48"></canvas>
     </div>
-
-    <div
-      class="bg-[hsl(var(--card))] rounded-2xl shadow-lg p-6 flex flex-col justify-between border border-[hsl(var(--border))] 
-             hover:shadow-2xl transition-shadow duration-300 animate-fadeInUp"
+    <button
+      on:click={goToWorkstation}
+      class="
+        self-start px-5 py-2 rounded-lg shadow transition
+        bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))]
+        hover:bg-[hsl(var(--primary) / 0.8)] 
+        hover:scale-105 hover:animate-bounce
+      "
     >
-      <div>
-        <h2
-          class="text-2xl font-semibold mb-4 flex items-center space-x-2 text-[hsl(var(--card-foreground))]"
-        >
-          <Monitor class="w-6 h-6 text-[hsl(var(--primary))]" />
-          <span>Workstation</span>
-        </h2>
-        <p class="text-[hsl(var(--muted-foreground))] mb-4">
-          Go work on your tasks in the dedicated workspace.
-        </p>
-      </div>
-      <button
-        on:click={goToWorkstation}
-        class="
-          self-start px-5 py-2 rounded-lg shadow transition
-          bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))]
-          hover:bg-[hsl(var(--primary) / 0.8)] 
-          hover:scale-105 hover:animate-bounce
-        "
+      Open Workstation
+    </button>
+  </div>
+
+  <!-- Workstation 2 Card -->
+  <div
+    class="bg-[hsl(var(--card))] rounded-2xl shadow-lg p-6 flex flex-col justify-between border border-[hsl(var(--border))] 
+           hover:shadow-2xl transition-shadow duration-300 animate-fadeInUp"
+  >
+    <div>
+      <h2
+        class="text-2xl font-semibold mb-4 flex items-center space-x-2 text-[hsl(var(--card-foreground))]"
       >
-        Open Workstation
-      </button>
+        <Monitor class="w-6 h-6 text-[hsl(var(--primary))]" />
+        <span>Workspace 2</span>
+      </h2>
+      <p class="text-[hsl(var(--muted-foreground))] mb-4">
+        Switch to your secondary workspace for parallel tasks.
+      </p>
     </div>
-  </section>
+    <button
+      on:click={goToWorkspace2}
+      class="
+        self-start px-5 py-2 rounded-lg shadow transition
+        bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))]
+        hover:bg-[hsl(var(--primary) / 0.8)] 
+        hover:scale-105 hover:animate-bounce
+      "
+    >
+      Open Workspace 2
+    </button>
+  </div>
+</section>
+
 </div>
